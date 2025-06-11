@@ -23,9 +23,10 @@ def post_to_airtable(item):
 
 def run_scraper():
     print("Launching TikTok scraper...")
-    with TikTokApi() as api:
-        for hashtag in HASHTAGS:
-            print(f"Searching #{hashtag}")
+    api = TikTokApi()
+    for hashtag in HASHTAGS:
+        print(f"Searching #{hashtag}")
+        try:
             results = api.hashtag(name=hashtag).videos(count=10)
             for video in results:
                 try:
@@ -45,7 +46,10 @@ def run_scraper():
                             "Hashtags": data["hashtags"]
                         })
                 except Exception as e:
-                    print("Error scraping video:", e)
+                    print("⚠️ Error parsing video:", e)
+        except Exception as e:
+            print("❌ Error fetching hashtag:", e)
+    api.close()
 
 if __name__ == "__main__":
     run_scraper()

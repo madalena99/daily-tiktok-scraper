@@ -14,6 +14,7 @@ HEADERS = {
 def post_to_airtable(data):
     url = f"https://api.airtable.com/v0/{AIRTABLE_BASE_ID}/{AIRTABLE_TABLE_NAME}"
     for item in data:
+        print("Uploading:", item)  # DEBUG
         record = {
             "fields": {
                 "Hook": item["hook"],
@@ -24,10 +25,11 @@ def post_to_airtable(data):
             }
         }
         response = requests.post(url, headers=HEADERS, json=record)
-        print(f"Status: {response.status_code}, Data: {response.json()}")
+        print("Status:", response.status_code)
+        print("Response:", response.text)
 
 def scrape_tiktoks():
-    # This is fake data for now — we’ll automate real scraping later
+    # Dummy data to test Airtable integration
     sample_data = [
         {
             "hook": "Did you know you can get money back from insurance?",
@@ -40,5 +42,10 @@ def scrape_tiktoks():
     return sample_data
 
 if __name__ == "__main__":
+    print("Running TikTok scraper...")  # DEBUG
     data = scrape_tiktoks()
-    post_to_airtable(data)
+    if not data:
+        print("⚠️ No data returned by scrape_tiktoks(). Exiting.")
+    else:
+        print(f"✅ {len(data)} TikTok(s) found. Uploading to Airtable...")
+        post_to_airtable(data)

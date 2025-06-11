@@ -29,7 +29,7 @@ def post_to_airtable(data):
         print("Response:", response.text)
 
 def scrape_tiktoks():
-    # Dummy data to test Airtable integration
+    # This is fake data for now — we’ll automate real scraping later
     sample_data = [
         {
             "hook": "Did you know you can get money back from insurance?",
@@ -42,7 +42,7 @@ def scrape_tiktoks():
     return sample_data
 
 if __name__ == "__main__":
-    print("Running TikTok scraper...")  # DEBUG
+    print("Running TikTok scraper...")
     data = scrape_tiktoks()
     if not data:
         print("⚠️ No data returned by scrape_tiktoks(). Exiting.")
